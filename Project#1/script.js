@@ -1,15 +1,5 @@
 'use strict';
-/*
-console.log(document.querySelector('.message').textContent);
-//Reading the content
-document.querySelector('.message').textContent = 'Correct Number ! 🎉';
-//Manipulating the content
-document.querySelector('.number').textContent = 12;
-document.querySelector('.score').textContent = 25;
 
-document.querySelector('.guess').value = 23;
-console.log(document.querySelector('.guess').value);
-*/
 let number = Math.trunc(Math.random() * 20) + 1;
 console.log(number);
 let score = 20;
