@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chap 8</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2{
+            text-align: center;
+        }
+        header{
+            background-color: yellowgreen;
+            height: 10vh;
+            padding: 12px;
+            margin: 4px 5px;
+            
+        }
+        .container{
+            background-color: rgba(248, 248, 136, 0.555);
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        .box{
+            border: 2px solid black;
+            padding: 4px;
+            /* transform: translate(2px, 40px) rotate(10deg); */
+            transform-origin: 0; 
+            /* transform: scaleX(2); */
+            /* transform: scaleY(2); */
+            /* transform: scale(2, 2); */
+            /* transform: skew(4deg, 4deg); */
+            /* transform: matrix(1, 2, -1, 1, 80, 80); */
+            
+        }
+        .box2{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            font-size: 15px;
+            
+            border: 2px solid black;
+            background-color: aquamarine;
+            width: 20vw;
+            /* align-self: auto; */
+            margin-top: 4vh;
+            transition-property: height, width, line-height, font-size;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in;
+
+        }
+        .box2:hover{
+            height: 15vh;
+            width: 30vw;
+            line-height: 15vh;
+            font-size: 20px;
+        }
+        .animation{
+            margin: 10px;
+            height: 10vh;
+            font-size: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid black;
+            width: 20vw;
+            background-color: blueviolet;
+            color: white;
+            /* animation-name: widthAnimate;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+            animation-delay: 1s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate; */
+            
+            /* Short-Hand Property */
+
+            animation: widthAnimate 1s ease-in-out 1s infinite alternate;
+
+        }
+       @keyframes widthAnimate {
+        /* from{
+            width: 20vw;
+            height: 10vh;
+            font-size: 15px;
+        }
+        to{
+            width: 30vw;
+            height: 15vh;
+            font-size: 20px;
+        } */
+        0%{
+            width: 20vw;
+            height: 10vh;
+            font-size: 15px;
+        }
+        100%{
+            width: 30vw;
+            height: 15vh;
+            font-size: 20px;
+        }
+        /* Using percentage to determine the values of the keyframes in a better way */
+       }
+    </style>
+</head>
+<body>
+    <header>
+    <h1>
+        Chapter 8
+    </h1>
+    <h2>
+        Transforms, Transitions, and Animations
+    </h2>
+</header>
+<div class="container">
+    <div class="box">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta architecto minima consectetur nam culpa voluptatem perspiciatis. Blanditiis deserunt necessitatibus iste tempora quo ullam veniam quia architecto 
+    </div>
+    <div class="box2">
+       <p>
+        Hey this is a Animation
+        (Hover the mouse over me)
+    </p>
+    </div>
+    <div class="animation">
+        This a animation made through keyframes
+    </div>
+</div>
+
+</body>
+</html>
