@@ -16,6 +16,8 @@ createBooking('LH320',);
 createBooking('BN420', 2, 16000);
 createBooking('A320', 4)
 
+/////////////////////////////////////////////////////////////////////////////
+
 //The default parameters can contain any expression
 
 
@@ -111,7 +113,6 @@ const greeter3 = greet3('Yo!');
 greeter3('Boy');
 
 
-*/
 
 const lufthansa = {
     airline: 'Lufthansa',
@@ -121,7 +122,7 @@ const lufthansa = {
         console.log(`${name} booked a seat on ${this.airline} flight ${this.iatacode}${flightNum}`);
         this.bookings.push({flight: ` ${this.iatacode}${flightNum}`, name})
     },
-
+    
 };
 
 lufthansa.book(239, 'Sandeep');
@@ -164,9 +165,144 @@ book.apply(swiss, flightData);
 book.call(swiss, ...flightData); // This is the same as the above statement and will give the same output as well
 
 
+// Bind Method
+
+// book.call(eurowings, 343, 'Maru');
+
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss)
+bookEW(696, 'Naruto Uzumaki');
+bookLH(344, 'Sasuke Uchiha');
 
 
+// What we basically did here is we made a sepatare variable for each objects and bound it with the book variable which will speacfy that how the this keyword will be used
+
+// So now we instead of calling the function using the call method to specify that from which object we want to use the book variable (which is a function) now what we did is we bound it with a separate function itself which is now itself a function
+
+// Means the vaiable where we used the bind method is now itself a function which will itself return a function
+
+// *************** Make sure to do some of your coding too using this bind method**************
 
 
+const bookEW43 = book.bind(eurowings, 43);
+// We have assigned the first parameter of the book method as 43 means now the flightNum parameter is now presetted as 43, so now the only parameter which we need is the name parameter
 
+bookEW43('Kakashi Uzumaki');
+
+// With Event Listeners
+
+lufthansa.planes = 200;
+lufthansa.buyPlanes = function () {
+    console.log(this);
+    this.planes++;
+    console.log(this.planes);
+};
+// lufthansa.buyPlanes()
+
+// My method
+// const buyPlanesMethod = lufthansa.buyPlanes;
+// const buyPlanesForLufthansa = buyPlanesMethod.bind(lufthansa)
+// document.querySelector('.buy').addEventListener('click', buyPlanesForLufthansa)
+
+// Jason's Method (Also the better and convinient method)
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlanes.bind(lufthansa))
+
+// Partial Applications
+
+const addTax = (rate, amount) => amount + amount * rate;
+console.log(addTax(0.1,200));
+
+const addGST = addTax.bind(null, 0.18); // Setting default parameteres for a object method
+
+console.log(addGST(100));
+
+
+const addTaxFn = function (rate) {
+    return function (amount) {
+        return amount+amount*rate
+    }
+    
+};
+
+const addGSTfn = addTaxFn(0.18);
+
+console.log(addGSTfn(200));
+
+
+const normalFn = function () {
+    console.log("This will run only once");
+};
+
+normalFn();
+
+(function () {
+    console.log("This will run only once");
+})();
+
+// For Arrow Functions
+(() => console.log("This will ALSO run only once"))();
+
+
+const secureBooking = function () {
+    let passengersCount = 0;
+    
+    return function () {
+        passengersCount++;
+        console.log(`${passengersCount} passengers`);
+    }
+};
+
+const booker = secureBooking();
+
+booker()
+booker()
+booker()
+*/
+
+// More closures examples
+
+// Example 1
+
+let f;
+const g = function () {
+    const a = 28;
+    f = function () {
+        console.log(a * 2);
+    }
+};
+
+const h = function () {
+    const b = 10;
+    f = function () {
+        console.log(b * 2);
+    }
+};
+
+g();
+f();
+console.dir(f);
+
+// Reassigning the 'f' variable
+
+h();
+f();
+
+console.dir(f);
+
+
+// Example 2
+
+const boardPassengers = function (n, wait) {
+    const perGroup = n / 3;
+
+    setTimeout(function () {
+        console.log(`We are boarding with all ${n} passengers`);
+        console.log(`There are three groups, each with ${perGroup} passengers`);
+    }, wait * 1000);
+
+    console.log(`We will start boarding in ${wait} seconds`);
+};
+
+boardPassengers(180, 3)
 
