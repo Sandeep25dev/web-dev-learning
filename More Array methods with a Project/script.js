@@ -548,7 +548,6 @@ console.log(movements);
 movements.sort((a, b) => b - a);
 console.log(movements);
 
-*/
 
 // More ways of creating and filling arrays
 
@@ -579,3 +578,64 @@ console.log(y);
 const z = Array.from({ length: 7 }, (_, i) => i + 1); // _ this is known as throwaway variale which we use where we don't really need it to define but still required as a blank variable
 console.log(z);
 
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('₹', '')));
+  console.log(movementsUI);
+  // There is another way of converting those UI elements and storing those into an array, but then we have to map them separately:-
+  
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')]
+  // console.log(movementsUI2);
+});
+
+*/
+
+
+
+//////// Array Methods Practice ////////
+
+// Exercise #1
+
+// const bankDepositSum = accounts.map(acc => acc.movements).flat().reduce((acc,mov)=>acc+mov);
+
+const bankDepositSum = accounts.flatMap(acc => acc.movements).filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+
+console.log(bankDepositSum);
+
+// Exercise #2
+
+const numDeposits1000 = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
+const numDeposits1000Copy = accounts.flatMap(acc => acc.movements).reduce((count, mov) => mov >= 1000 ? ++count : count, 0);
+console.log(numDeposits1000);
+console.log(numDeposits1000Copy);
+
+// Prefixed ++ Operator
+let a = 10;
+// console.log(a++);
+// console.log(a);
+console.log(++a);
+
+// Exercise #3
+
+const { deposits, withdrawls } = accounts.flatMap(acc => acc.movements).reduce((sums, cur) => {
+  // cur > 0 ? sums.deposits += cur : sums.withdrawls += cur;
+  sums[cur > 0 ? 'deposits' : 'withdrawls'] += cur; // Another method for the same operation done above
+  return sums;
+}, { deposits: 0, withdrawls: 0 });
+
+console.log(deposits, withdrawls);
+
+// Exercise #4
+
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const exceptions = ['a', 'is', 'an', 'and', 'the', 'of', 'in', 'on', 'at', 'but', 'or', 'with', 'has', 'have'];
+
+  const titleCase = title.toLowerCase().split(' ').map(word => (exceptions.includes(word) ? word : capitalize(word))).join(' ')
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('This is a VERY nice Title'));
+console.log(convertTitleCase('are you that person BEHIND this controversy'));
+console.log(convertTitleCase('This is a very NICE title'));
+console.log(convertTitleCase('This is a LONG title But Not Too LONG'));
+console.log(convertTitleCase('and Here is another example of the title'));
