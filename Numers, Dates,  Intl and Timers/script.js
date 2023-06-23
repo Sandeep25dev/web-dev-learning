@@ -197,9 +197,34 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    // In each call, print the remaining time UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Login to get started';
+      containerApp.style.opacity = 0;
+    }
+    // Decrease time by 1 sec
+    time--;
+  }
+  // Set time to 5 mins
+  let time = 120;
+  // Call timer each seconds
+  tick();
+  const timer = setInterval(tick, 1000)
+  return timer;
+
+}
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // Fake Always Logged In
 // currentAccount = account1;
@@ -259,6 +284,10 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    // Timer
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+    
     // Update UI
     updateUI(currentAccount);
   }
@@ -287,6 +316,10 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAcc.movementsDates.push(new Date());
     // Update UI
     updateUI(currentAccount);
+
+    // Reset the timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -296,15 +329,22 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    // Add Transfer Date
-    currentAccount.movementsDates.push(new Date().toISOString());
-    // Update UI
-    updateUI(currentAccount);
+      // Add Transfer Date
+      currentAccount.movementsDates.push(new Date().toISOString());
+      // Update UI
+      updateUI(currentAccount);
+    }, 3000);
   }
   inputLoanAmount.value = '';
+
+  // Reset the Timer
+  clearInterval(timer);
+  timer = startLogOutTimer();
+  
 });
 
 btnClose.addEventListener('click', function (e) {
@@ -533,7 +573,6 @@ const future = new Date(2025, 10, 12, 12, 45);
 
 // console.log(days1);
 
-*/
 
 ///// Internationalising Numbers /////////
 
@@ -565,3 +604,29 @@ const currFormatter = function (amt) {
 
 console.log(formatter.format(2500));
 console.log(currFormatter(5100000));
+
+////// Set Timeout ///////
+
+const biryaniWith = ['Raita','Onion Slices']
+
+// const biryaniTimer = setTimeout((ing1, ing2) => console.log(`Here is your Chicken Biryani😁 with ${ing1} and ${ing2}`), 3000, ...biryaniWith);
+console.log('Waiting...');
+
+// if(biryaniWith.includes('Onion Slices')) clearTimeout(biryaniTimer)
+
+////// Set Interval ///////
+
+// setInterval(function () {
+  //   const now = new Date();
+  //   console.log(now);
+  // },1000)
+  
+  setInterval(function () {
+    const now = new Date();
+    const hours = now.getHours();
+    const mins = now.getMinutes();
+    console.log(`The time is ${hours}:${mins}`);
+  }, 1000 * 60);
+  
+  */
+
