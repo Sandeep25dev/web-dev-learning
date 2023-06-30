@@ -197,4 +197,31 @@ btnScrollTo.addEventListener('click', function (e) {
 
 })
 
+/////////////////////////////////////////////////////////////////////////////
+
+// Types of Events and Event Handlers
+
+const h1 = document.querySelector('h1');
+const alertH1 = function (e) {
+  alert("addEventListener: Great! You are reading the heading :D")
+
+  // Now if you want to remove the eventListener from the function after it got executed for once
+  h1.removeEventListener('mouseenter',alertH1)
+
+};
+
+h1.addEventListener('mouseenter', alertH1 )
+
+// Another way of removing the event listener using timeOut :-
+
+setTimeout(()=>h1.removeEventListener('mouseenter',alertH1),3000)
+
+
+// Doing the same thing done above using a different method
+
+// h1.onmouseenter = function (e) {
+  // alert("onmouseenter: Great! You are reading the heading :D")
+// };
+
+/// Consider using addEventListner cause it's modern and has more funtionality, for example use can attach multi event listeners to a single one in the addEventListener method
 
