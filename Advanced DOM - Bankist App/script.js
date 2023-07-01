@@ -200,7 +200,7 @@ btnScrollTo.addEventListener('click', function (e) {
 /////////////////////////////////////////////////////////////////////////////
 
 // Types of Events and Event Handlers
-
+/*
 const h1 = document.querySelector('h1');
 const alertH1 = function (e) {
   alert("addEventListener: Great! You are reading the heading :D")
@@ -222,6 +222,45 @@ setTimeout(()=>h1.removeEventListener('mouseenter',alertH1),3000)
 // h1.onmouseenter = function (e) {
   // alert("onmouseenter: Great! You are reading the heading :D")
 // };
-
+*/
 /// Consider using addEventListner cause it's modern and has more funtionality, for example use can attach multi event listeners to a single one in the addEventListener method
+
+// rgb(255,255,255)
+
+////////// RANDOM COLOR GENERATOR FUNCTION  :- Can be used later in other places/////////
+
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min); // Generating a random number function. NOTE: Deep Study this function
+
+const randomColor = () => `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+console.log(randomColor());
+
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('LINK', e.target, e.currentTarget); // .target will show that where the event was originated
+  console.log(e.currentTarget === this); // The currentTarget keyword/method works same as the this keyword or we can say that the currentTarget method operates the same way as the this keyword because both are attached with the current element as selected.
+
+ // If we want to stop the propagation, means that if we don't want to procees the propagation further to it's parent scopes/elements then in that case we can do this :-
+  
+  // e.stopPropagation(); // Using this method will stop the propagation immidietely, and it won't process any further to it's parent scopes or elemenets
+
+  // NOTE: It's not a good idea neither a good practice to stop the propagation except on the necessary places 
+})
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('CONTAINER', e.target, e.currentTarget);
+})
+
+// By default it only shows the bubbling phase and not the capturing phase.
+// and we want to execute the capturing event as well we have to assign a third parameter to the event listener
+document.querySelector('.nav').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('NAV', e.target, e.currentTarget);
+}, false) // Setting the capturing as true, it will display the this event on first, meaning this event will get executed first. By default it is set to false and I've also set it up to false to avoid the capturing event
+
+// NOTE: Most of the time the capturing event don't get used... So it's irrelavent to use go further in the capturing phase. That's why we should not consider using it
+
+
 
