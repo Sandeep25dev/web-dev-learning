@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -33,6 +35,70 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+btnScrollTo.addEventListener('click', function (e) {
+  section1.scrollIntoView({ behavior: 'smooth' }) 
+  // This funtion is deeply explained in the below lectures section
+})
+
+/////////////////////////////////////////////////////////////////////////////
+
+// Page Navigation
+
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href'); // It will use as the Id selector throughout the loop 
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//     // In the querySelector the parameter is used as the id variable each time the loop is initiated
+
+//   })
+// }) //////// Study this code for better understanding /////////
+
+// Using the Event Delegation and implementation
+
+// 1. Add event listener to common parent element
+// 2. Determine what element originated the event
+
+// Selection the common element or parent element of all the links, which in this case it nav__links
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  // console.log(e.target); //remove comments for better understanding
+
+  // Matching Strategy
+  if (e.target.classList.contains('nav__link')) {
+    // used the same code we made above
+    const id = e.target.getAttribute('href');
+    // console.log(id); //remove comments for better understanding
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+})
+
+/// Building a tabbed component ///
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab'); // IT will search for the closest parent element with the classname of .operations__tab in order to avoid selecting the span element in the button which will disrupt the function
+
+  // Guard Clause
+  if (!clicked) return;
+
+  // console.log(clicked);
+
+  // Remove Active Classes
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+  
+  // Activate Tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activate Content Area
+   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
+
+})
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -154,7 +220,7 @@ const link2 = document.querySelector('.nav__link--btn')
 
 ////// Data Attributes
 
-console.log(logo.dataset.versionNumber); // Here you'll have to clarify the the dataset to access it
+// console.log(logo.dataset.versionNumber); // Here you'll have to clarify the the dataset to access it
 
 ////// Classes //////
 /*
@@ -163,7 +229,7 @@ logo.classList.remove('c', 's');
 logo.classList.toggle('c', 's');
 logo.classList.contains('c', 's');
 */
-
+/*
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
@@ -196,6 +262,7 @@ btnScrollTo.addEventListener('click', function (e) {
 
 
 })
+*/
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -233,9 +300,9 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min
 
 const randomColor = () => `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
 
-console.log(randomColor());
+// console.log(randomColor());
 
-
+/*
 document.querySelector('.nav__link').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
   console.log('LINK', e.target, e.currentTarget); // .target will show that where the event was originated
@@ -262,5 +329,48 @@ document.querySelector('.nav').addEventListener('click', function (e) {
 
 // NOTE: Most of the time the capturing event don't get used... So it's irrelavent to use go further in the capturing phase. That's why we should not consider using it
 
+
+///// DOM Traversing /////////
+
+const h1 = document.querySelector('h1');
+
+//// Going Downwards: Selecting child elements /////
+console.log(h1.querySelectorAll('.highlight'));
+// Selecting the direct childs of the element :-
+console.log(h1.childNodes); // The childNodes method is not that useful 
+// Instead we can use.children method which will return us the HTML elements collection of it's child that are used in it's child scope
+
+console.log(h1.children);
+
+h1.firstElementChild.style.color = 'white'; // Only the first child element is gonna be modified
+
+// And also we can do:-
+h1.lastElementChild.style.color = 'purple';
+
+
+///// Going Upwards: Selecting parent elements /////
+
+// For selecting the direct parent
+console.log(h1.parentNode);
+console.log(h1.parentElement); // It might show the same output but actually it works differently
+
+// Selecting the closest parent element
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// Opposite to the querySelector where querySelector looks for the children no matter how far it is located in the dom tree, while in the .closest method it looks for thr parent elements... (both accepts queries as it's parameters)
+
+///////// Going Sideways: Selecting siblings
+
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+// Other way of getting all the siblings
+console.log(h1.parentElement.children);
+
+*/
 
 
