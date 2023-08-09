@@ -66,30 +66,56 @@ Array.prototype.unique = function () {
 console.log(arr.unique());
 
 
+*/
+// CLASSES //
+
 // Class expression
 const PersonCl2 = class {};
 
 // Class Declaration
 
 class PersonCl {
-  constructor(name, birthYear) {
-    this.name = name;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
+
+  // Instance Methods
   calcAge() {
     return 2023 - this.birthYear;
+  }
+  get age() {
+    return `${this.fullName} is ${2023 - this.birthYear} years old`;
+  }
+
+  // Set a property that already exists (IMP) //
+
+  set fullName(name) {
+    // console.log(name);
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+  get fullName() {
+    return this._fullName;
+  }
+  // Static Method: meaning this method will only work for the constructor where it declared like in this case it will only work in this PersonCL class as it doesn't gets added to the prototype property so no other objects can access this like in the instances which gets added to the prototype property from there other objects can acccess that as well
+
+  // Static Method
+  static hey() {
+    return 'Hey there! 👋';
   }
 }
 
 const sanjay = new PersonCl('Sanjay Mehta', 2000);
 console.log(sanjay);
 console.log(sanjay.calcAge());
+console.log(sanjay.age);
 
 PersonCl.prototype.greet = function () {
-  return `Hey ${this.name}! you're welcome😊`;
+  return `Hey ${this.fullName}! you're welcome😊`;
 };
 console.log(sanjay.greet());
-*/
+console.log(PersonCl.hey());
 
 // NOTES :-
 
@@ -100,3 +126,49 @@ console.log(sanjay.greet());
 //3. Classes are executed in Strict mode
 
 //4.
+
+//// GETTERS AND SETTERS ////
+
+// const walter = new PersonCl('Walter', 1994); // Will throw the defined alert in case of missing the last name
+
+const walter = new PersonCl('Walter White', 1994);
+console.log(walter.fullName);
+
+const account = {
+  owner: 'Sandeep',
+  movements: [200, 800, 500, 8000, 5208],
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+console.log(account.latest);
+account.latest = 3201; // Setting a latest value
+console.log(account.movements);
+
+const PersonProto = {
+  calcAge() {
+    return 2023 - this.birthYear;
+  },
+  init(name, birthYear) {
+    this.name = name;
+    this.birthYear = birthYear;
+  },
+};
+
+const krish = Object.create(PersonProto);
+console.log(krish); // Right now it's just an empty object with the inheritance of the prototype of PersonProto
+
+// Setting up some elements under the object
+krish.name = 'Krishna Choudhary';
+krish.birthYear = 2000;
+console.log(krish); // Now it will return the object with the setted elements
+console.log(krish.calcAge());
+
+const sonaram = Object.create(PersonProto);
+sonaram.init('Sonaram Soren', 2003);
+console.log(sonaram, sonaram.calcAge());
