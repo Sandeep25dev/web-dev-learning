@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 // A constructor function always starts with capital letters
 
 //  CONSTRUCTOR FUNCTION  //
@@ -63,3 +64,39 @@ Array.prototype.unique = function () {
 };
 
 console.log(arr.unique());
+
+
+// Class expression
+const PersonCl2 = class {};
+
+// Class Declaration
+
+class PersonCl {
+  constructor(name, birthYear) {
+    this.name = name;
+    this.birthYear = birthYear;
+  }
+  calcAge() {
+    return 2023 - this.birthYear;
+  }
+}
+
+const sanjay = new PersonCl('Sanjay Mehta', 2000);
+console.log(sanjay);
+console.log(sanjay.calcAge());
+
+PersonCl.prototype.greet = function () {
+  return `Hey ${this.name}! you're welcome😊`;
+};
+console.log(sanjay.greet());
+*/
+
+// NOTES :-
+
+//1. Classes are NOT hoisted meaning we cannot use them before they're declared as we do in the function declaration.
+
+//2. Classes are also first-class citizens just like functions.
+
+//3. Classes are executed in Strict mode
+
+//4.
