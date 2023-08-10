@@ -66,7 +66,6 @@ Array.prototype.unique = function () {
 console.log(arr.unique());
 
 
-*/
 // CLASSES //
 
 // Class expression
@@ -79,7 +78,7 @@ class PersonCl {
     this.fullName = fullName;
     this.birthYear = birthYear;
   }
-
+  
   // Instance Methods
   calcAge() {
     return 2023 - this.birthYear;
@@ -87,9 +86,9 @@ class PersonCl {
   get age() {
     return `${this.fullName} is ${2023 - this.birthYear} years old`;
   }
-
+  
   // Set a property that already exists (IMP) //
-
+  
   set fullName(name) {
     // console.log(name);
     if (name.includes(' ')) this._fullName = name;
@@ -99,7 +98,7 @@ class PersonCl {
     return this._fullName;
   }
   // Static Method: meaning this method will only work for the constructor where it declared like in this case it will only work in this PersonCL class as it doesn't gets added to the prototype property so no other objects can access this like in the instances which gets added to the prototype property from there other objects can acccess that as well
-
+  
   // Static Method
   static hey() {
     return 'Hey there! 👋';
@@ -140,7 +139,7 @@ const account = {
   get latest() {
     return this.movements.slice(-1).pop();
   },
-
+  
   set latest(mov) {
     this.movements.push(mov);
   },
@@ -172,3 +171,41 @@ console.log(krish.calcAge());
 const sonaram = Object.create(PersonProto);
 sonaram.init('Sonaram Soren', 2003);
 console.log(sonaram, sonaram.calcAge());
+
+*/
+
+///////////////////////////////////////////////////////////
+
+// Inheritance Between "Classes" : Constructor Functions
+const Person2 = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+Person2.prototype.calcAge = function () {
+  return 2023 - this.birthYear;
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person2.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+// Linking Prototypes
+Student.prototype = Object.create(Person2.prototype);
+
+Student.prototype.introduce = function () {
+  return `My name is ${this.firstName} and I study ${this.course}`;
+};
+
+const mike = new Student('Mike', 2003, 'Computer Science');
+console.log(mike.introduce());
+console.log(mike.calcAge());
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+console.log(mike instanceof Student);
+console.log(mike instanceof Person2);
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
