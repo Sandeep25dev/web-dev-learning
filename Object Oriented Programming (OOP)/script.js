@@ -135,7 +135,7 @@ console.log(walter.fullName);
 
 const account = {
   owner: 'Sandeep',
-  movements: [200, 800, 500, 8000, 5208],
+  #movements: [200, 800, 500, 8000, 5208],
   get latest() {
     return this.movements.slice(-1).pop();
   },
@@ -172,8 +172,6 @@ const sonaram = Object.create(PersonProto);
 sonaram.init('Sonaram Soren', 2003);
 console.log(sonaram, sonaram.calcAge());
 
-*/
-
 ///////////////////////////////////////////////////////////
 
 // Inheritance Between "Classes" : Constructor Functions
@@ -209,3 +207,149 @@ console.log(mike instanceof Person2);
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
+/////////////////////////////////////////////////////////////
+// Inheritance Between "Classes" : ES6 Classes
+
+class PersonCl3 {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+  
+  // Instance Methods
+  calcAge() {
+    return 2023 - this.birthYear;
+  }
+  get age() {
+    return `${this.fullName} is ${2023 - this.birthYear} years old`;
+  }
+  
+  // Set a property that already exists (IMP) //
+  
+  set fullName(name) {
+    // console.log(name);
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+  get fullName() {
+    return this._fullName;
+  }
+  
+  // Static Method
+  static hey() {
+    return 'Hey there! 👋';
+  }
+}
+
+class StudentCl extends PersonCl3 {
+  constructor(fullName, birthYear, course) {
+    // Always needs to happen first
+    super(fullName, birthYear);
+    this.course = course;
+  }
+  introduce() {
+    return `My name is ${this.fullName} and I study ${this.course}`;
+  }
+  // Overwriting the parent class methods
+  calcAge() {
+    return `${this.fullName} is ${2023 - this.birthYear} years old`;
+  }
+}
+
+const maru = new StudentCl('Kallua Maru', 2005, 'B.Com');
+
+console.log(maru);
+console.log(maru.introduce());
+console.log(maru.calcAge());
+
+
+/////////////////////////////////////////////////////////////
+// Inheritance Between "Classes" : Object.create
+const PersonProto2 = {
+  calcAge() {
+    return 2023 - this.birthYear;
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const jitu = Object.create(PersonProto2);
+
+const StudentProto = Object.create(PersonProto2);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto2.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+StudentProto.introduce = function () {
+  return `My name is ${this.firstName} and I study ${this.course}`;
+};
+const sanjay = Object.create(StudentProto);
+sanjay.init('Sanjay', 2000, 'BA');
+console.log(sanjay);
+console.log(sanjay.introduce());
+console.log(sanjay.calcAge());
+
+*/
+
+// 1) Public Fields
+// 2) Private Fields
+// 3) Public Methods
+// 4) Private Methods
+
+class Account {
+  // 1) Public Fields (instances)
+  locale = navigator.language;
+
+  // 2) Private Fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected Property
+    this.#pin = pin;
+    // this.movements = [];
+    // this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+  // 3) Public Methods
+
+  // Public Interface
+  getMovements() {
+    return this.#movements;
+  }
+  deposit(value) {
+    this.#movements.push(value);
+    return this; // For chainig purpose
+  }
+  withdraw(value) {
+    this.deposit(-value);
+    return this; // For chainig purpose
+  }
+
+  requestLoan(value) {
+    if (this._approveLoan(value)) {
+      this.deposit(value);
+      console.log('Loan Approved!');
+    }
+    return this; // For chainig purpose
+  }
+  // 4) Private Methods
+  _approveLoan(value) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Sandeep', 'INR', 6969);
+console.log(acc1);
+acc1.deposit(300);
+acc1.withdraw(140);
+console.log(acc1.getMovements());
+
+// Chaining
+acc1.deposit(400).deposit(6900).withdraw(2000).requestLoan(54000);
+console.log(acc1.getMovements());
