@@ -73,7 +73,8 @@ class CarCl {
   }
   brake() {
     this.speed -= 5;
-    return `${this.make} is going at ${this.speed} KM/h`;
+    console.log(`${this.make} is going at ${this.speed} KM/h`);
+    return this;
   }
   get speedUS() {
     return this.speed / 1.6;
@@ -127,9 +128,54 @@ EV.prototype.accelerate = function () {
 };
 
 const tesla = new EV('Tesla', 120, 23);
-console.log(tesla);
-console.log(tesla.accelerate());
-console.log(tesla.accelerate());
-tesla.chargeBattery(90);
-console.log(tesla.brake());
-console.log(tesla.accelerate());
+// console.log(tesla);
+// console.log(tesla.accelerate());
+// console.log(tesla.accelerate());
+// tesla.chargeBattery(90);
+// console.log(tesla.brake());
+// console.log(tesla.accelerate());
+
+/// Coding Challenge #4 ///
+/*
+Your tasks:
+1. Re-create Challenge #3, but this time using ES6 classes: create an 'EVCl'child class of the 'CarCl' class
+
+2. Make the 'charge' property private
+
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery'methods of this class, and also update the 'brake' method in the 'CarCl'class. Then experiment with chaining!
+
+Test data:
+§ Data car 1: 'Rivian' going at 120 km/h, with a charge of 23%
+GOOD LUCK 
+*/
+
+class EVCl extends CarCl {
+  #charge;
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+  accelerate() {
+    this.speed += 10;
+    this.#charge--;
+    console.log(
+      `${this.make} is going at ${this.speed} KM/h with a charge of ${
+        this.#charge
+      }%`
+    );
+    return this;
+  }
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+}
+
+const rivian = new EVCl('Rivian', 120, 23);
+// console.log(rivian);
+// console.log(rivian.accelerate());
+// console.log(rivian.brake());
+// rivian.chargeBattery(45);
+// console.log(rivian.accelerate());
+
+console.log(rivian.accelerate().accelerate().chargeBattery(45).accelerate());
